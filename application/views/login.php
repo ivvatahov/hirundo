@@ -1,25 +1,21 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Secure Login: Log In</title>
-        <link rel="stylesheet" href="styles/main.css" />
-       <script type="text/JavaScript" src="/www/public/js/sha512.js"></script> 
-        <script type="text/JavaScript" src="/www/public/js/forms.js"></script>
-    </head>
-    <body>
-        <?php
-            if (!empty($error_msg)) {
-                echo $error_msg;
-            }
-        ?> 
-        <form action="<?php echo $loginUrl; ?>" method="post" name="login_form">                      
-            Username: <input type="text" name="username" />
-            Password: <input type="password" 
-                             name="password" 
-                             id="password"/>
-            <input type="button" 
-                   value="Login" 
-                   onclick="formhash(this.form, this.form.password);" /> 
-        </form>     
-    </body>
-</html>
+<?php 
+    include('header.php');
+    
+    if (!empty($error_msg)) {
+        echo $error_msg;
+    }
+?> 
+
+<div class="auth">
+    <h1>Login / <a href="<?php echo $registerUrl;?>">Register</a> </h1>
+    <form action="<?php echo $loginUrl; ?>" method="post" name="login_form">  
+        <input type="text" name="username" placeholder="Username" required="required" />
+        <input type="password" name="password" placeholder="Password" required="required" />
+        <input type="button" 
+               value="Let me in." 
+               onclick="formhash(this.form, this.form.password);" 
+               class="btn btn-primary btn-block btn-large" /> 
+    </form>
+</div>
+
+<?php include('footer.php');

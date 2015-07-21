@@ -5,8 +5,8 @@ Class UserDto {
 	private $id;
     private $username;
     private $email;
+    //private $followers;
     private $roles = array();
-    private $desk;
 
     function __construct($user) 
     {
@@ -14,7 +14,7 @@ Class UserDto {
         $this->username = $user->getUsername();
         $this->email = $user->getEmail();
         $this->roles = $user->getRoles();
-        $this->desk = new DeskDto($user->getDesk());
+        //$this->followers = $user->getFollowers();
     }
 
     public function setId($id){
@@ -48,14 +48,6 @@ Class UserDto {
    	public function getRoles() { 
 		return $this->roles; 
 	}
-
-    public function setDesk($desk){
-    	$this->desk = $desk;
-    }
-
-    public function getDesk(){
-    	return $this->desk;
-    }
 }
 
 ?>

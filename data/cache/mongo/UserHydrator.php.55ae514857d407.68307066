@@ -95,18 +95,6 @@ class UserHydrator implements HydratorInterface
         $this->class->reflFields['followers']->setValue($document, $return);
         $hydratedData['followers'] = $return;
 
-        /** @Many */
-        $mongoData = isset($data['following']) ? $data['following'] : null;
-        $return = new \Doctrine\ODM\MongoDB\PersistentCollection(new \Doctrine\Common\Collections\ArrayCollection(), $this->dm, $this->unitOfWork);
-        $return->setHints($hints);
-        $return->setOwner($document, $this->class->fieldMappings['following']);
-        $return->setInitialized(false);
-        if ($mongoData) {
-            $return->setMongoData($mongoData);
-        }
-        $this->class->reflFields['following']->setValue($document, $return);
-        $hydratedData['following'] = $return;
-
         /** @Field(type="boolean") */
         if (isset($data['verified'])) {
             $value = $data['verified'];

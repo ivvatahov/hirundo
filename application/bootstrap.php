@@ -4,13 +4,10 @@ include "autoloadManager.php";
 
 $autoloadManager = new autoloadManager(__SITE_PATH . '/data/cache/classes/cache.php', autoloadManager::SCAN_ONCE);
 $autoloadManager->addFolder(__APP_PATH);
-$autoloadManager->addFolder(__SITE_PATH . '/includes');
+$autoloadManager->addFolder(__VENDOR_PATH);
 $autoloadManager->register();
 
-require_once __SITE_PATH . "/vendor/autoload.php";
-
 include 'configs/doctrine_config.php';
-
 
 function redirect($location, $statusCode = 302)
 {
@@ -34,7 +31,7 @@ $registry->authenticationRepository = $authenticationRepository;
 $registry->router = new router($registry, $authentication);
 
 /*** set the controller path **/
-$registry->router->setPath (__APP_PATH . '/controller');
+$registry->router->setPath (__APP_PATH . '/controllers');
 
 /*** load up the template **/
 $registry->template = new template($registry);

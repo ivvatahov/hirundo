@@ -10,32 +10,39 @@ class UserRepository {
 
 	public function getUserByUsername($username)
 	{
-		$user = $this->dm->getRepository('User')->findOneBy(array('username' => $username));
-		return new UserDto($user);	
+		return $this->dm->getRepository('User')->findOneBy(array('username' => $username));	
 	}
 
-	public function addDocument($username, $document)
+	public function addFollower($username, $follower)
 	{
 		return $this->dm->createQueryBuilder('User')
     			->field('username')
     			->equals($username)
     			->update()
-    			->field('desk.documents')
-    			->push($document)
+    			->field('followers')
+    			->push($follower)
     			->getQuery()
     			->execute();
 	}
 
-	public function setCurrent($username, $document)
+	public function getFollowers($user, $skip, $limit)
 	{
-		$this->dm->createQueryBuilder('User')
-			->field('username')
-			->equals($username)
-			->update()
-			->field('desk.current') 
-			->set($document->getId())
-			->getQuery()
-			->execute();
+		return $this->dm->createQueryBuilder('User')
+				-> field('followers')
+				-> includesReferenceTo($user)
+				-> limit($limit)
+				-> skip($skip)
+				-> getQuery()
+				-> execute();
+	}
+
+	public function getFollowerNumber($username)
+	{
+		return $this->dm->createQueryBuilder('User')
+		 		-> select('followers')
+         		-> count()
+         		->getQuery()
+         		-> execute();
 	}
 }
 ?>

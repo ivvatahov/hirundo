@@ -10,7 +10,7 @@ AnnotationDriver::registerAnnotationClasses();
 $config = new Configuration();
 $config->setProxyDir(__SITE_PATH . '/data/cache/mongo');
 $config->setProxyNamespace('Proxies');
-$config->setDefaultDB('test');
+$config->setDefaultDB('hirundo');
 $config->setHydratorDir(__SITE_PATH . '/data/cache/mongo');
 $config->setHydratorNamespace('Hydrators');
 $config->setMetadataDriverImpl(AnnotationDriver::create(__SITE_PATH . '/data/cache/mongo'));

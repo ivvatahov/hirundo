@@ -8,6 +8,8 @@ $site_path = realpath(dirname(__FILE__));
 
 define('__SITE_PATH', $site_path);
 
+define('__VENDOR_PATH', $site_path . '/vendor');
+
 /*** define the application path ***/
 define('__APP_PATH', $site_path . '/application');
 

@@ -7,7 +7,7 @@ class loginController extends baseController
   {
     
     $this->authentication->sec_session_start();
-    if($this->authentication->login_check() == true) 
+    if($this->authentication->login_check()) 
     { 
         redirect("home");
     }

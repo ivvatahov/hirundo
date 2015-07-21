@@ -5,10 +5,15 @@ class registerController extends baseController
 
     public function index()
     {
+        $this->authentication->sec_session_start(); 
+        if($this->authentication->login_check()) 
+        { 
+            redirect("home");
+        }
 
         /*** set a template variables ***/
-        $this->registry->template->registerUrl = $_SERVER['PHP_SELF'] . "/?rt=register";
-        $this->registry->template->loginUrl = $_SERVER['PHP_SELF'] . "/?rt=login";
+        $this->registry->template->registerUrl = $_SERVER['PHP_SELF'] . "?rt=register";
+        $this->registry->template->loginUrl = $_SERVER['PHP_SELF'] . "?rt=login";
         $error_msg = '';
 
         if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
@@ -64,7 +69,6 @@ class registerController extends baseController
                 $user->setSalt($random_salt);
                 $user->setPassword($password);
                 $user->addRole('user');
-                $user->setDesk(new Desk());
                 
                 if ($this->registry->authenticationRepository->insertUser($user))
                 {   

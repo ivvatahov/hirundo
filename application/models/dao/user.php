@@ -25,11 +25,14 @@ Class User {
     /** @ODM\Date */
     private $registrationDate;
 
-    /** @ODM\ReferenceMany(targetDocument="User") */
+    /** @ODM\ReferenceMany(targetDocument="User", mappedBy="following") */
     private $followers;
 
+    /** @ODM\ReferenceMany(targetDocument="User", inversedBy="followers") */
+    private $following;
+
     /** @ODM\Boolean */
-    private $verified
+    private $verified;
 
     public function setId($id) {
     	$this->id = $id;
@@ -91,10 +94,17 @@ Class User {
         $this->followers = $followers;
     }
 
+    public function getFollowing() {
+        return $this->following;
+    }
+
+    public function setFollowing($following) {
+        $this->following = $following;
+    }
+
     public function getFollowers() {
         return $this->followers;
     }
-
 
     public function setVerified($verified) {
         $this->verified = $verified;

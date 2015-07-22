@@ -118,6 +118,18 @@
 	text-align: center;
 }
 
+.auth a {
+    color: #0060B6;
+    text-decoration: none;
+}
+
+.auth a:hover 
+{
+     color:#00A0C6; 
+     text-decoration:none; 
+     cursor:pointer;  
+}
+
 input {
 	width: 100%;
 	margin-bottom: 10px;

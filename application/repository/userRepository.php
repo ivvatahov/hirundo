@@ -10,12 +10,13 @@ class UserRepository {
 
 	public function getUserByUsername($username)
 	{
-		return $this->dm->getRepository('User')->findOneBy(array('username' => $username));	
+		$user =  $this->dm->getRepository('User')->findOneBy(array('username' => $username));	
+		return $user;
 	}
 
-	public function addFollower($username, $follower)
+/*	public function addFollower($username, $follower)
 	{
-		return $this->dm->createQueryBuilder('User')
+		$is_succeeded =  $this->dm->createQueryBuilder('User')
     			->field('username')
     			->equals($username)
     			->update()
@@ -23,26 +24,56 @@ class UserRepository {
     			->push($follower)
     			->getQuery()
     			->execute();
-	}
+
+    	return $is_succeeded;
+	}*/
 
 	public function getFollowers($user, $skip, $limit)
 	{
-		return $this->dm->createQueryBuilder('User')
+		$followers = $this->dm->createQueryBuilder('User')
 				-> field('followers')
 				-> includesReferenceTo($user)
 				-> limit($limit)
 				-> skip($skip)
 				-> getQuery()
 				-> execute();
+
+		return $followers;
 	}
 
-	public function getFollowerNumber($username)
+	public function getFollowerNumber($user)
 	{
-		return $this->dm->createQueryBuilder('User')
-		 		-> select('followers')
+		$number = $this->dm->createQueryBuilder('User')
+		 		-> field('followers')
+		 		-> includesReferenceTo($user)
          		-> count()
-         		->getQuery()
+         		-> getQuery()
          		-> execute();
+
+        return $number;
+	}
+
+	public function getLatestMessages($user, $limit) 
+	{
+		$messages = $this->dm->createQueryBuilder('Message')
+				-> sort('publicationDate', 'desc')
+				-> limit($limit)
+                -> getQuery()
+                -> execute();
+
+        return $messages;
+	}
+
+	public function getMessagesAfter($date, $limit)
+	{
+		$messages = $this->dm->createQueryBuilder('Message')
+                  -> field('publicationDate')->gte($date)
+                  -> sort('publicationDate', 'desc')
+                  -> limit($limit)
+                  -> getQuery()
+                  -> execute();
+
+        return $messages;
 	}
 }
 ?>

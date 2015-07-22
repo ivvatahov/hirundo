@@ -14,7 +14,7 @@ class usersController extends baseController
 		$username = htmlentities($_SESSION['username']);
 		$user = $this->registry->userRepository->getUserByUsername($username);
 
-		$total = $this->registry->userRepository->getFollowerNumber($username);
+		$total = $this->registry->userRepository->getFollowerNumber($user);
 
 		// How many items to list per page
     	$limit = 20;

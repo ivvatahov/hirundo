@@ -43,4 +43,5 @@ $registry->template->logoutUrl = $_SERVER['PHP_SELF'] . "?rt=logout";
 $registry->template->loginUrl = $_SERVER['PHP_SELF'] . "?rt=login";
 $registry->template->registerUrl = $_SERVER['PHP_SELF'] . "?rt=register";
 $registry->template->messageUrl = $_SERVER['PHP_SELF'] . "?rt=message";
+$registry->template->myMessageUrl = $_SERVER['PHP_SELF'] . "?rt=myMessages";
 ?>

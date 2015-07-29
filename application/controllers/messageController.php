@@ -3,7 +3,7 @@
 class messageController extends baseController
 {
 
-  	public function index()
+    public function index()
   	{
   		$this->authentication->sec_session_start(); 
     	if(!$this->authentication->login_check()) 
@@ -20,12 +20,12 @@ class messageController extends baseController
             $content = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
            
            	// Create the new message object
-			$message = new Message();
+		    $message = new Message();
 	        $message->setPublisher($user);
-	        $message->setContent($content);
-	        $message->setPublicationDate(new DateTime());
+           	$message->setContent($content);
+         	$message->setPublicationDate(new DateTime());
          
-            if ($this->registry->authenticationRepository->insertMessage($message))
+            if ($this->registry->userRepository->addMessage($message))
             {   
                 redirect("home"); 
             }

@@ -28,6 +28,17 @@ class UserRepository {
     	return $is_succeeded;
 	}*/
 
+	public function getAllFollowers($user) 
+	{
+		$followers = $this->dm->createQueryBuilder('User')
+		-> field('followers')
+		-> includesReferenceTo($user)
+		-> getQuery()
+		-> execute();
+
+		return $followers;
+	}
+
 	public function getFollowers($user, $skip, $limit)
 	{
 		$followers = $this->dm->createQueryBuilder('User')
@@ -53,15 +64,37 @@ class UserRepository {
         return $number;
 	}
 
+	public function addMessage($message)
+	{
+		$this->dm->persist($message);
+		$this->dm->flush();
+		return true;
+	}
+
 	public function getLatestMessages($user, $limit) 
 	{
+		$followers = iterator_to_array($this->getAllFollowers($user));
+
 		$messages = $this->dm->createQueryBuilder('Message')
+				-> field("publisher")
+				-> in($followers)
 				-> sort('publicationDate', 'desc')
 				-> limit($limit)
                 -> getQuery()
                 -> execute();
 
         return $messages;
+	}
+
+	public function getUserMessages($user)
+	{
+		$messages = $this->dm->createQueryBuilder('Message')
+		        -> field("publisher")
+				-> references($user)
+                -> getQuery()
+                -> execute();	
+
+        return $messages;	
 	}
 
 	public function getMessagesAfter($date, $limit)

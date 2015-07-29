@@ -20,8 +20,6 @@ class homeController extends baseController
 		$messages = $this->registry->userRepository->getLatestMessages($user, $limit);
 
 		// Setting a values for the template
-		$this->registry->template->usersUrl = $_SERVER['PHP_SELF'] . "?rt=users";		
-		$this->registry->template->logoutUrl = $_SERVER['PHP_SELF'] . "?rt=logout";
 
 		$this->registry->template->username = $username;
 		$this->registry->template->messages = $messages;

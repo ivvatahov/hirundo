@@ -11,11 +11,6 @@ class registerController extends baseController
             redirect("home");
         }
 
-        /*** set a template variables ***/
-        $this->registry->template->registerUrl = $_SERVER['PHP_SELF'] . "?rt=register";
-        $this->registry->template->loginUrl = $_SERVER['PHP_SELF'] . "?rt=login";
-        $error_msg = '';
-
         if (isset($_POST['username'], $_POST['email'], $_POST['p'])) {
             // Sanitize and validate the data passed in
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);

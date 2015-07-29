@@ -11,9 +11,6 @@ class loginController extends baseController
     { 
         redirect("home");
     }
-
-    $this->registry->template->registerUrl = $_SERVER['PHP_SELF'] . "?rt=register";
-    $this->registry->template->loginUrl = $_SERVER['PHP_SELF'] . "?rt=login";
     
     if (isset($_POST['username'], $_POST['p'])) {
         $username = $_POST['username'];

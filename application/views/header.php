@@ -9,6 +9,8 @@
         <link rel="stylesheet" href="/www/public/css/main.css" />
         <link rel="stylesheet" href="/www/public/css/auth.css" />
         <link rel="stylesheet" href="/www/public/css/timeline.css" />
+        <link rel="stylesheet" href="/www/public/css/form_style.css" />
+
 
    		<link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>

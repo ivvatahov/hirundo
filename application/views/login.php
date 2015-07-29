@@ -7,7 +7,7 @@
 ?> 
 
 <div id="slick-login">
-    <h1>Login / <a href="<?php echo $registerUrl;?>">Register</a> </h1>
+    <h1><a href="<?php echo $registerUrl;?>">Register</a> </h1>
     <form action="<?php echo $loginUrl; ?>" method="post" name="login_form">  
         <label for="username">username</label> 
         <input type="text" name="username" placeholder="Username" required="required" />

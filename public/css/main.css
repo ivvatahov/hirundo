@@ -1,6 +1,6 @@
 /* The body, gives an example how the background should look like */
 body {
-    background: #063d4c;
+    background: #F7F7F7;
     -webkit-box-shadow: inset 0px 0px 150px 0px rgba(0, 0, 0, 0.8);
     -moz-box-shadow: inset 0px 0px 150px 0px rgba(0, 0, 0, 0.8);
     box-shadow: inset 0px 0px 150px 0px rgba(0, 0, 0, 0.8);
@@ -9,6 +9,12 @@ body {
     position: absolute;
     margin: 0;
 }
+
+a {
+  color: blue;
+  text-decoration: none; /* no underline */
+}
+
 /* These create the flashes */
 @-webkit-keyframes hover {
     0% { background: #bdedfa }

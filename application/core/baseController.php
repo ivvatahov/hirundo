@@ -1,6 +1,6 @@
 <?php
 
-Abstract Class baseController
+abstract Class baseController
 {
 	
   /*

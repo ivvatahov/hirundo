@@ -1,5 +1,6 @@
 <?php 
     include('header.php');
+    include('menu.php');
     
     if (!empty($error_msg)) {
         echo $error_msg;

@@ -102,12 +102,20 @@ Class User {
         $this->following = $following;
     }
 
+    public function addFollowing($followed) {
+        $this->following[] = $followed;
+    }
+
     public function getFollowers() {
         return $this->followers;
     }
 
     public function setVerified($verified) {
         $this->verified = $verified;
+    }
+
+    public function addFollower($follower) {
+        $this->followers[] = $follower;
     }
 
     public function isVerified() {

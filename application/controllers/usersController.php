@@ -14,7 +14,7 @@ class usersController extends baseController
 		$username = htmlentities($_SESSION['username']);
 		$user = $this->registry->userRepository->getUserByUsername($username);
 
-		$total = $this->registry->userRepository->getFollowerNumber($user);
+		$total = $this->registry->userRepository->getUserNumber($username);
 
 		// How many items to list per page
     	$limit = 20;
@@ -27,7 +27,7 @@ class usersController extends baseController
 	        'options' => array(
 	            'default'   => 1,
 	            'min_range' => 1,
-	        ),
+	        )
 	    )));
 
 	    // Calculate the offset for the query
@@ -43,12 +43,12 @@ class usersController extends baseController
    	 	// The "forward" link
     	$nextlink = ($page < $pages) ? '<a href="?page=' . ($page + 1) . '" title="Next page">&rsaquo;</a> <a href="?page=' . $pages . '" title="Last page">&raquo;</a>' : '<span class="disabled">&rsaquo;</span> <span class="disabled">&raquo;</span>';
 
-    	$followers = $this->registry->userRepository->getFollowers($user, $offset, $limit);
-
+    	$users = $this->registry->userRepository->getUsers($username, $offset, $limit);
+    	
 		$this->registry->template->prevlink = $prevlink;
 		$this->registry->template->nextlink = $nextlink;    	
 		$this->registry->template->username = $username;
-		$this->registry->template->followers = $followers;
+		$this->registry->template->users = $users;
 
 		$this->registry->template->show('users');
   	}

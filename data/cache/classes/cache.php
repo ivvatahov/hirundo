@@ -4,7 +4,7 @@
  * 
  * @authors      Al-Fallouji Bashar & Charron Pierrick
  * 
- * @description This file was automatically generated at 2015-07-21 [10:30:59]
+ * @description This file was automatically generated at 2015-08-17 [16:35:07]
  * 
  */ 
 return array (
@@ -13,8 +13,10 @@ return array (
   'indexcontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\indexController.php',
   'logincontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\loginController.php',
   'logoutcontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\logoutController.php',
+  'messagecontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\messageController.php',
+  'mymessagescontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\myMessagesController.php',
   'registercontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\registerController.php',
-  'uploadcontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\uploadController.php',
+  'userscontroller' => 'C:\\xampp\\htdocs\\www\\application\\controllers\\usersController.php',
   'authentication' => 'C:\\xampp\\htdocs\\www\\application\\core\\authentication.php',
   'basecontroller' => 'C:\\xampp\\htdocs\\www\\application\\core\\baseController.php',
   'registry' => 'C:\\xampp\\htdocs\\www\\application\\core\\registry.php',
@@ -22,7 +24,6 @@ return array (
   'template' => 'C:\\xampp\\htdocs\\www\\application\\core\\template.php',
   'message' => 'C:\\xampp\\htdocs\\www\\application\\models\\dao\\message.php',
   'user' => 'C:\\xampp\\htdocs\\www\\application\\models\\dao\\user.php',
-  'deskdto' => 'C:\\xampp\\htdocs\\www\\application\\models\\dto\\deskDto.php',
   'documentdto' => 'C:\\xampp\\htdocs\\www\\application\\models\\dto\\documentDto.php',
   'userdto' => 'C:\\xampp\\htdocs\\www\\application\\models\\dto\\userDto.php',
   'authenticationrepository' => 'C:\\xampp\\htdocs\\www\\application\\repository\\authenticationRepository.php',

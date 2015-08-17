@@ -28,13 +28,50 @@ class UserRepository {
     	return $is_succeeded;
 	}*/
 
+	public function getUserNumber($username)
+	{
+		$number = $this->dm->createQueryBuilder('User')
+				-> field("username")
+				-> notEqual($username)
+         		-> count()
+         		-> getQuery()
+         		-> execute();
+
+        return $number;
+	}
+
+	public function getUsers($username, $skip, $limit)
+	{
+		$users = $this->dm->createQueryBuilder('User')
+				-> field("username")
+				-> notEqual($username)
+				-> limit($limit)
+				-> skip($skip)
+				-> getQuery()
+				-> execute();
+
+		return $users;
+	}
+
+	public function follow($user, $followed) 
+	{
+		$query = $this->dm->createQueryBuilder('User')
+    			-> update()
+			    -> field('followers') -> addToSet($followed)
+			    -> field('id')->equals($user->getId())
+			    -> getQuery()
+			    -> execute();
+
+		return $query;
+	}
+
 	public function getAllFollowers($user) 
 	{
 		$followers = $this->dm->createQueryBuilder('User')
-		-> field('followers')
-		-> includesReferenceTo($user)
-		-> getQuery()
-		-> execute();
+				-> field('followers')
+				-> includesReferenceTo($user)
+				-> getQuery()
+				-> execute();
 
 		return $followers;
 	}

@@ -20,10 +20,10 @@ class messageController extends baseController
             $content = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
            
            	// Create the new message object
-		    $message = new Message();
-	        $message->setPublisher($user);
+		        $message = new Message();
+	          $message->setPublisher($user);
            	$message->setContent($content);
-         	$message->setPublicationDate(new DateTime());
+         	  $message->setPublicationDate(new DateTime());
          
             if ($this->registry->userRepository->addMessage($message))
             {   

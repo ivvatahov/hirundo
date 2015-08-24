@@ -25,14 +25,17 @@ Class User {
     /** @ODM\Date */
     private $registrationDate;
 
-    /** @ODM\ReferenceMany(targetDocument="User", mappedBy="following") */
-    private $followers;
+    /** @ODM\ReferenceMany(targetDocument="User") */
+    private $followers = array();
 
-    /** @ODM\ReferenceMany(targetDocument="User", inversedBy="followers") */
-    private $following;
+    /** @ODM\ReferenceMany(targetDocument="User") */
+    private $following = array();
 
     /** @ODM\Boolean */
     private $verified;
+
+    /** @ODM\ReferenceMany(targetDocument="Message", mappedBy="publisher") */
+    private $messages;
 
     public function setId($id) {
     	$this->id = $id;
@@ -104,6 +107,7 @@ Class User {
 
     public function addFollowing($followed) {
         $this->following[] = $followed;
+        $followed->followers[] = $this;
     }
 
     public function getFollowers() {
@@ -115,11 +119,26 @@ Class User {
     }
 
     public function addFollower($follower) {
-        $this->followers[] = $follower;
+        if (!in_array($follower, $this->followers)) {
+            //$this->followers[] = $follower;
+            //$follower->following[] = $this;
+        }
     }
 
     public function isVerified() {
         return $this->verified;
+    }
+
+    public function getMessages() {
+        return $this->messages;
+    }
+
+    public function addMessage($message) { 
+        $this->messages[] = $message; 
+    }
+
+    public function setMessages($messages) {
+        $this->messages = $messages;
     }
 }
 

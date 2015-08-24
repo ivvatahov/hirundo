@@ -8,7 +8,7 @@ Class Message {
 	/** @ODM\Id */
 	private $id;
 
-    /** @ODM\ReferenceOne(targetDocument="User") */
+    /** @ODM\ReferenceOne(targetDocument="User", inversedBy="messages") */
     private $publisher;
 
     /** @ODM\String */

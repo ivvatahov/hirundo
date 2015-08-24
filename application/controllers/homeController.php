@@ -23,7 +23,7 @@ class homeController extends baseController
 
 		$this->registry->template->username = $username;
 		$this->registry->template->messages = $messages;
-		$this->registry->template->show('home');
+		//$this->registry->template->show('home');
   	}
 }
 ?>

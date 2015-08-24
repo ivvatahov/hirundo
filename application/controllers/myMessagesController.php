@@ -16,7 +16,7 @@ class myMessagesController extends baseController
 		$user = $this->registry->userRepository->getUserByUsername($username);
 
 		// Getting the latest messages
-		$messages = $this->registry->userRepository->getUserMessages($user);
+		$messages = $user->getMessages();
 
 		// Setting a values for the template
 

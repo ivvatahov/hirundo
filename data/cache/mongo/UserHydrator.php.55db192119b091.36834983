@@ -114,18 +114,6 @@ class UserHydrator implements HydratorInterface
             $this->class->reflFields['verified']->setValue($document, $return);
             $hydratedData['verified'] = $return;
         }
-
-        /** @Many */
-        $mongoData = isset($data['messages']) ? $data['messages'] : null;
-        $return = new \Doctrine\ODM\MongoDB\PersistentCollection(new \Doctrine\Common\Collections\ArrayCollection(), $this->dm, $this->unitOfWork);
-        $return->setHints($hints);
-        $return->setOwner($document, $this->class->fieldMappings['messages']);
-        $return->setInitialized(false);
-        if ($mongoData) {
-            $return->setMongoData($mongoData);
-        }
-        $this->class->reflFields['messages']->setValue($document, $return);
-        $hydratedData['messages'] = $return;
         return $hydratedData;
     }
 }

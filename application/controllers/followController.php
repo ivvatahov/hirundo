@@ -17,10 +17,12 @@ class followController extends baseController
 
 		if (isset($_POST['followed'])) {
 			$followedName = htmlentities($_POST['followed']);
-			$followed = $this->registry->userRepository->getUserByUsername($followedName);
-			$user->addFollowing($followed);
-			
-			$this->registry->userRepository->follow($user, $followed);        
+			$followed = $this->registry->userRepository->getUserByUsername($followedName);		
+
+			if (!$this->registry->userRepository->isFollowedExists($user, $followed)) {
+				$user->addFollowing($followed);
+				$this->registry->userRepository->persist($user);  
+			}      
         }
 
 		redirect("users");

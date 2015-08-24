@@ -14,19 +14,24 @@ class UserRepository {
 		return $user;
 	}
 
-/*	public function addFollower($username, $follower)
+	public function persist($object)
 	{
-		$is_succeeded =  $this->dm->createQueryBuilder('User')
-    			->field('username')
-    			->equals($username)
-    			->update()
-    			->field('followers')
-    			->push($follower)
-    			->getQuery()
-    			->execute();
+		$this->dm->persist($object);
+		$this->dm->flush();
+	}
 
-    	return $is_succeeded;
-	}*/
+	public function isFollowedExists($user, $followed) {
+		$count = $this->dm->createQueryBuilder('User')
+		 		-> field('followers')
+		 		-> includesReferenceTo($user)
+		 		-> field("username")
+		 		-> equals($followed->getUsername())
+         		-> count()
+         		-> getQuery()
+         		-> execute();
+
+        return $count != 0;
+	} 
 
 	public function getUserNumber($username)
 	{
@@ -110,15 +115,20 @@ class UserRepository {
 
 	public function getLatestMessages($user, $limit) 
 	{
-		$followers = iterator_to_array($this->getAllFollowers($user));
+		$following = iterator_to_array($user->getFollowing());
 
 		$messages = $this->dm->createQueryBuilder('Message')
 				-> field("publisher")
-				-> in($followers)
-				-> sort('publicationDate', 'desc')
-				-> limit($limit)
+				-> in($following)
+				//-> sort('publicationDate', 'desc')
+				//-> limit($limit)
                 -> getQuery()
                 -> execute();
+
+        foreach ($messages as $message) {
+        
+        }
+
 
         return $messages;
 	}
@@ -134,7 +144,7 @@ class UserRepository {
         return $messages;	
 	}
 
-	public function getMessagesAfter($date, $limit)
+/*	public function getMessagesAfter($date, $limit)
 	{
 		$messages = $this->dm->createQueryBuilder('Message')
                   -> field('publicationDate')->gte($date)
@@ -144,6 +154,6 @@ class UserRepository {
                   -> execute();
 
         return $messages;
-	}
+	}*/
 }
 ?>

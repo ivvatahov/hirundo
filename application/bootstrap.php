@@ -18,6 +18,8 @@ function redirect($location, $statusCode = 302)
    	exit();
 }
 
+$dateFormat = 
+
 $registry = new registry();
 $authenticationRepository = new AuthenticationRepository($dm);
 $userRepository = new UserRepository($dm);
@@ -36,6 +38,10 @@ $registry->router->setPath (__APP_PATH . '/controllers');
 /*** load up the template **/
 $registry->template = new template($registry);
 
+/** set the default DataTime format **/
+$registry->dataTimeFormat = 'Y-m-d H:i:s';
+$registry->template->dataTimeFormat = $registry->dataTimeFormat;
+
 /*** load the site urls **/
 $registry->template->usersUrl = $_SERVER['PHP_SELF'] . "?rt=users";
 $registry->template->homeUrl = $_SERVER['PHP_SELF'] . "?rt=home";
@@ -45,4 +51,5 @@ $registry->template->registerUrl = $_SERVER['PHP_SELF'] . "?rt=register";
 $registry->template->messageUrl = $_SERVER['PHP_SELF'] . "?rt=message";
 $registry->template->myMessageUrl = $_SERVER['PHP_SELF'] . "?rt=myMessages";
 $registry->template->followUrl = $_SERVER['PHP_SELF'] . "?rt=follow";
+$registry->template->latestMessagesUrl = $_SERVER['PHP_SELF'] . "?rt=latestMessages";
 ?>

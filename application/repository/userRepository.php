@@ -115,25 +115,24 @@ class UserRepository {
 
 	public function getLatestMessages($user, $limit) 
 	{
-		$following = iterator_to_array($user->getFollowing());
+		$following = array();
 
-		$messages = $this->dm->createQueryBuilder('Message')
-				-> field("publisher")
-				-> in($following)
-				//-> sort('publicationDate', 'desc')
-				//-> limit($limit)
-                -> getQuery()
-                -> execute();
-
-        foreach ($messages as $message) {
-        
+		foreach ($user->getFollowing() as $followed) {
+        	$following[] = $followed->getId();
         }
 
-
+		$messages = $this->dm->createQueryBuilder('Message')
+				-> field("publisher.id")
+				-> in($following)
+				-> sort('publicationDate', 'desc')
+				-> limit($limit)
+                -> getQuery()
+                -> execute();
+                
         return $messages;
 	}
 
-	public function getUserMessages($user)
+/*	public function getUserMessages($user)
 	{
 		$messages = $this->dm->createQueryBuilder('Message')
 		        -> field("publisher")
@@ -142,18 +141,26 @@ class UserRepository {
                 -> execute();	
 
         return $messages;	
-	}
+	}*/
 
-/*	public function getMessagesAfter($date, $limit)
+	public function getMessagesAfter($user, $date, $limit)
 	{
+		$following = array();
+
+		foreach ($user->getFollowing() as $followed) {
+        	$following[] = $followed->getId();
+        }
+
 		$messages = $this->dm->createQueryBuilder('Message')
-                  -> field('publicationDate')->gte($date)
+				  -> field("publisher.id")
+				  -> in($following)
+                  -> field('publicationDate')->gt($date)
                   -> sort('publicationDate', 'desc')
                   -> limit($limit)
                   -> getQuery()
                   -> execute();
 
         return $messages;
-	}*/
+	}
 }
 ?>

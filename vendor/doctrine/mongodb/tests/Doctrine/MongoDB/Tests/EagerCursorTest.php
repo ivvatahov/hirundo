@@ -51,6 +51,40 @@ class EagerCursorTest extends BaseTest
         $this->assertTrue($eagerCursor->isInitialized());
     }
 
+    public function testGetUseIdentifierKeys()
+    {
+        $cursor = $this->getMockCursor();
+
+        $cursor->expects($this->at(0))
+            ->method('getUseIdentifierKeys')
+            ->will($this->returnValue(true));
+
+        $cursor->expects($this->at(1))
+            ->method('getUseIdentifierKeys')
+            ->will($this->returnValue(false));
+
+        $eagerCursor = new EagerCursor($cursor);
+        $this->assertTrue($eagerCursor->getUseIdentifierKeys());
+        $this->assertFalse($eagerCursor->getUseIdentifierKeys());
+    }
+
+    public function testSetUseIdentifierKeys()
+    {
+        $cursor = $this->getMockCursor();
+
+        $cursor->expects($this->at(0))
+            ->method('setUseIdentifierKeys')
+            ->with(true);
+
+        $cursor->expects($this->at(1))
+            ->method('setUseIdentifierKeys')
+            ->with(false);
+
+        $eagerCursor = new EagerCursor($cursor);
+        $eagerCursor->setUseIdentifierKeys(true);
+        $eagerCursor->setUseIdentifierKeys(false);
+    }
+
     public function testGetSingleResultShouldAlwaysReturnTheFirstResult()
     {
         $results = array(
@@ -138,12 +172,42 @@ class EagerCursorTest extends BaseTest
         }
     }
 
+    public function testGetNextHasNext()
+    {
+        $results = array(
+            array('_id' => 1, 'x' => 'foo'),
+            array('_id' => 2, 'x' => 'bar'),
+        );
+
+        $cursor = $this->getMockCursor();
+
+        $cursor->expects($this->once())
+            ->method('toArray')
+            ->will($this->returnValue($results));
+
+        $eagerCursor = new EagerCursor($cursor);
+
+        $this->assertTrue($eagerCursor->hasNext());
+        $this->assertEquals($results[0], $eagerCursor->getNext());
+
+        $this->assertTrue($eagerCursor->hasNext());
+        $this->assertEquals($results[0], $eagerCursor->current(), 'hasNext does not advance internal cursor');
+        $this->assertEquals($results[1], $eagerCursor->getNext());
+
+        $this->assertFalse($eagerCursor->hasNext());
+        $this->assertNull($eagerCursor->getNext());
+
+        $eagerCursor->rewind();
+        $this->assertTrue($eagerCursor->hasNext());
+        $this->assertEquals($results[0], $eagerCursor->getNext());
+    }
+
     /**
      * @return \Doctrine\MongoDB\Cursor
      */
     private function getMockCursor()
     {
-        return $this->getMockBuilder('Doctrine\MongoDB\Cursor')
+        return $this->getMockBuilder('Doctrine\MongoDB\CursorInterface')
             ->disableOriginalConstructor()
             ->getMock();
     }

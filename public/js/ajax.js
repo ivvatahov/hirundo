@@ -13,7 +13,7 @@ function displayMessage(message) {
 function getLatestMessages(lastDate){
   var newDate = lastDate;
   $.ajax({
-    url: "latestMessages",
+    url: "",
     type: 'GET',
     data: { date: lastDate,
             rt: "latestMessages"},
@@ -24,7 +24,6 @@ function getLatestMessages(lastDate){
     },
     dataType: "json",
     success: function(data){
-      //alert(lastDate);
       if (data[0] != null) {
         newDate = data[0].publicationDate;
       }
@@ -49,7 +48,7 @@ function getPreviewsMessages(firstDate){
       if ($(window).scrollTop() >= mostOfTheWayDown) {
           $(window).unbind("scroll");
           $.ajax({
-              url: "index.php",
+              url: "",
               type: 'GET',
               data: { date: newDate,
                       rt: "previewsMessages"},

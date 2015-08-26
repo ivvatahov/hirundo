@@ -18,8 +18,6 @@ function redirect($location, $statusCode = 302)
    	exit();
 }
 
-$dateFormat = 
-
 $registry = new registry();
 $authenticationRepository = new AuthenticationRepository($dm);
 $userRepository = new UserRepository($dm);
@@ -53,4 +51,5 @@ $registry->template->myMessageUrl = $_SERVER['PHP_SELF'] . "?rt=myMessages";
 $registry->template->followUrl = $_SERVER['PHP_SELF'] . "?rt=follow";
 $registry->template->unfollowUrl = $_SERVER['PHP_SELF'] . "?rt=unfollow";
 $registry->template->latestMessagesUrl = $_SERVER['PHP_SELF'] . "?rt=latestMessages";
+
 ?>

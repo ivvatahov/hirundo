@@ -3,15 +3,15 @@
     <head>
         <meta charset="UTF-8">
         <title></title>
-        <script type="text/JavaScript" src="/www/public/js/sha512.js"></script> 
-        <script type="text/JavaScript" src="/www/public/js/forms.js"></script>
-        <script type="text/JavaScript" src="/www/public/js/placeholder.js"></script>
-        <script type="text/JavaScript" src="/www/public/js/ajax.js"></script>
+        <script type="text/JavaScript" src="/hirundo/public/js/sha512.js"></script> 
+        <script type="text/JavaScript" src="/hirundo/public/js/forms.js"></script>
+        <script type="text/JavaScript" src="/hirundo/public/js/placeholder.js"></script>
+        <script type="text/JavaScript" src="/hirundo/public/js/ajax.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <link rel="stylesheet" href="/www/public/css/main.css" />
-        <link rel="stylesheet" href="/www/public/css/auth.css" />
-        <link rel="stylesheet" href="/www/public/css/timeline.css" />
-        <link rel="stylesheet" href="/www/public/css/form_style.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/main.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/auth.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/timeline.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/form_style.css" />
 
    		<link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
 		<link href='http://fonts.googleapis.com/css?family=Lato:400,300' rel='stylesheet' type='text/css'>

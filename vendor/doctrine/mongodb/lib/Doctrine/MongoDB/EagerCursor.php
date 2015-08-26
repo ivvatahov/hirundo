@@ -26,12 +26,12 @@ namespace Doctrine\MongoDB;
  * @since  1.0
  * @author Jonathan H. Wage <jonwage@gmail.com>
  */
-class EagerCursor implements Iterator
+class EagerCursor implements CursorInterface
 {
     /**
      * The Cursor instance being wrapped.
      *
-     * @var Cursor
+     * @var CursorInterface
      */
     protected $cursor;
 
@@ -50,11 +50,20 @@ class EagerCursor implements Iterator
     protected $initialized = false;
 
     /**
+     * Whether the cursor has started iterating.
+     *
+     * This is necessary for getNext() and hasNext() to work properly.
+     *
+     * @var boolean
+     */
+    private $iterating = false;
+
+    /**
      * Constructor.
      *
-     * @param Cursor $cursor
+     * @param CursorInterface $cursor
      */
-    public function __construct(Cursor $cursor)
+    public function __construct(CursorInterface $cursor)
     {
         $this->cursor = $cursor;
     }
@@ -65,6 +74,7 @@ class EagerCursor implements Iterator
     public function count()
     {
         $this->initialize();
+
         return count($this->data);
     }
 
@@ -74,13 +84,14 @@ class EagerCursor implements Iterator
     public function current()
     {
         $this->initialize();
+
         return current($this->data);
     }
 
     /**
      * Return the wrapped Cursor.
      *
-     * @return Cursor
+     * @return CursorInterface
      */
     public function getCursor()
     {
@@ -128,6 +139,8 @@ class EagerCursor implements Iterator
     public function key()
     {
         $this->initialize();
+        $this->iterating = true;
+
         return key($this->data);
     }
 
@@ -137,6 +150,7 @@ class EagerCursor implements Iterator
     public function next()
     {
         $this->initialize();
+        $this->iterating = true;
         next($this->data);
     }
 
@@ -146,6 +160,7 @@ class EagerCursor implements Iterator
     public function rewind()
     {
         $this->initialize();
+        $this->iterating = false;
         reset($this->data);
     }
 
@@ -155,6 +170,7 @@ class EagerCursor implements Iterator
     public function toArray()
     {
         $this->initialize();
+
         return $this->data;
     }
 
@@ -164,6 +180,264 @@ class EagerCursor implements Iterator
     public function valid()
     {
         $this->initialize();
+        $this->iterating = true;
+
         return key($this->data) !== null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addOption($key, $value)
+    {
+        $this->cursor->addOption($key, $value);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function batchSize($num)
+    {
+        $this->cursor->batchSize($num);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function dead()
+    {
+        return $this->cursor->dead();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function explain()
+    {
+        return $this->cursor->explain();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fields(array $f)
+    {
+        $this->cursor->fields($f);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCollection()
+    {
+        return $this->cursor->getCollection();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFields()
+    {
+        return $this->cursor->getFields();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNext()
+    {
+        $this->initialize();
+
+        $next = ($this->iterating) ? next($this->data) : current($this->data);
+        $this->iterating = true;
+
+        return ($next !== false) ? $next : null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getQuery()
+    {
+        return $this->cursor->getQuery();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getReadPreference()
+    {
+        return $this->cursor->getReadPreference();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setReadPreference($readPreference, array $tags = null)
+    {
+        $this->cursor->setReadPreference($readPreference, $tags);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getUseIdentifierKeys()
+    {
+        return $this->cursor->getUseIdentifierKeys();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setUseIdentifierKeys($useIdentifierKeys)
+    {
+        $this->cursor->setUseIdentifierKeys($useIdentifierKeys);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasNext()
+    {
+        $this->initialize();
+
+        $wasIterating = $this->iterating;
+        $hasNext = $this->getNext() !== null;
+
+        // Reset the internal cursor if we weren't iterating
+        if ($wasIterating) {
+            prev($this->data);
+        } else {
+            $this->iterating = false;
+        }
+
+        return $hasNext;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function hint($keyPattern)
+    {
+        $this->cursor->hint($keyPattern);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function immortal($liveForever = true)
+    {
+        $this->cursor->immortal($liveForever);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function info()
+    {
+        return $this->cursor->info();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function limit($num)
+    {
+        $this->cursor->limit($num);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function recreate()
+    {
+        $this->initialized = false;
+        $this->data = array();
+        $this->iterating = false;
+        $this->cursor->recreate();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
+    {
+        $this->cursor->reset();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function skip($num)
+    {
+        $this->cursor->limit($num);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function slaveOkay($ok = true)
+    {
+        $this->cursor->slaveOkay($ok);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function snapshot()
+    {
+        $this->cursor->snapshot();
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sort($fields)
+    {
+        $this->cursor->sort($fields);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function tailable($tail = true)
+    {
+        $this->cursor->tailable($tail);
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function timeout($ms)
+    {
+        $this->cursor->timeout($ms);
+
+        return $this;
     }
 }

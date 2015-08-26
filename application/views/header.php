@@ -3,13 +3,13 @@
     <head>
         <meta charset="UTF-8">
         <title>Secure Login: Registration Form</title>
-        <script type="text/JavaScript" src="/www/public/js/sha512.js"></script> 
-        <script type="text/JavaScript" src="/www/public/js/forms.js"></script>
-        <script type="text/JavaScript" src="/www/public/js/placeholder.js"></script>
-        <link rel="stylesheet" href="/www/public/css/main.css" />
-        <link rel="stylesheet" href="/www/public/css/auth.css" />
-        <link rel="stylesheet" href="/www/public/css/timeline.css" />
-        <link rel="stylesheet" href="/www/public/css/form_style.css" />
+        <script type="text/JavaScript" src="/hirundo/public/js/sha512.js"></script> 
+        <script type="text/JavaScript" src="/hirundo/public/js/forms.js"></script>
+        <script type="text/JavaScript" src="/hirundo/public/js/placeholder.js"></script>
+        <link rel="stylesheet" href="/hirundo/public/css/main.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/auth.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/timeline.css" />
+        <link rel="stylesheet" href="/hirundo/public/css/form_style.css" />
 
 
    		<link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>

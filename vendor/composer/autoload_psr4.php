@@ -7,4 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'ptejada\\uFlex\\' => array($vendorDir . '/ptejada/uflex/src'),
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
 );

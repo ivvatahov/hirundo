@@ -166,17 +166,31 @@ class Collection
      *
      * @see http://php.net/manual/en/mongocollection.count.php
      * @see http://docs.mongodb.org/manual/reference/command/count/
-     * @param array   $query
-     * @param integer $limit
-     * @param integer $skip
+     * @param array         $query
+     * @param integer|array $limitOrOptions Limit or options array
+     * @param integer       $skip
      * @return integer
      */
-    public function count(array $query = array(), $limit = 0, $skip = 0)
+    public function count(array $query = array(), $limitOrOptions = 0, $skip = 0)
     {
-        $mongoCollection = $this->mongoCollection;
-        return $this->retry(function() use ($mongoCollection, $query, $limit, $skip) {
-            return $mongoCollection->count($query, $limit, $skip);
-        });
+        $options = is_array($limitOrOptions)
+            ? array_merge(array('limit' => 0, 'skip' => 0), $limitOrOptions)
+            : array('limit' => $limitOrOptions, 'skip' => $skip);
+
+        $options['limit'] = (integer) $options['limit'];
+        $options['skip'] = (integer) $options['skip'];
+
+        return $this->doCount($query, $options);
+    }
+
+    /**
+     * Creates a new aggregation builder instance.
+     *
+     * @return Aggregation\Builder
+     */
+    public function createAggregationBuilder()
+    {
+        return new Aggregation\Builder($this);
     }
 
     /**
@@ -707,6 +721,28 @@ class Collection
     }
 
     /**
+     * Wrapper method for MongoCollection::parallelCollectionScan()
+     *
+     * @param int $numCursors
+     * @return CommandCursor[]
+     *
+     * @throws BadMethodCallException if MongoCollection::parallelCollectionScan() is not available
+     */
+    public function parallelCollectionScan($numCursors)
+    {
+        if ( ! method_exists('MongoCollection', 'parallelCollectionScan')) {
+            throw new BadMethodCallException('MongoCollection::parallelCollectionScan() is not available');
+        }
+
+        $mongoCollection = $this->mongoCollection;
+        $commandCursors = $this->retry(function() use ($mongoCollection, $numCursors) {
+            return $mongoCollection->parallelCollectionScan($numCursors);
+        });
+
+        return array_map(array($this, 'wrapCommandCursor'), $commandCursors);
+    }
+
+    /**
      * Wrapper method for MongoCollection::remove().
      *
      * This method will dispatch preRemove and postRemove events.
@@ -945,6 +981,38 @@ class Collection
         $options = isset($options['wtimeout']) ? $this->convertWriteTimeout($options) : $options;
         $options = isset($options['timeout']) ? $this->convertSocketTimeout($options) : $options;
         return $this->mongoCollection->batchInsert($a, $options);
+    }
+
+    /**
+     * Execute the count command.
+     *
+     * @see Collection::count()
+     * @param array $query
+     * @param array $options
+     * @return integer
+     * @throws ResultException if the command fails or omits the result field
+     */
+    protected function doCount(array $query, array $options)
+    {
+        list($commandOptions, $clientOptions) = isset($options['socketTimeoutMS']) || isset($options['timeout'])
+            ? $this->splitCommandAndClientOptions($options)
+            : array($options, array());
+
+        $command = array();
+        $command['count'] = $this->mongoCollection->getName();
+        $command['query'] = (object) $query;
+        $command = array_merge($command, $commandOptions);
+
+        $database = $this->database;
+        $result = $this->retry(function() use ($database, $command, $clientOptions) {
+            return $database->command($command, $clientOptions);
+        });
+
+        if (empty($result['ok']) || ! isset($result['n'])) {
+            throw new ResultException($result);
+        }
+
+        return (integer) $result['n'];
     }
 
     /**

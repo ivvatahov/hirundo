@@ -5,16 +5,25 @@ Class UserDto {
 	private $id;
     private $username;
     private $email;
-    //private $followers;
-    private $roles = array();
+    private $followers;
+    private $following;
+    private $registrationDate;
+    //private $messages;
 
     function __construct($user) 
     {
         $this->id = $user->getId();
         $this->username = $user->getUsername();
         $this->email = $user->getEmail();
-        $this->roles = $user->getRoles();
-        //$this->followers = $user->getFollowers();
+        $this->registrationDate = $user->getRegistrationDate();
+        
+        foreach ($user->getFollowing() as $followed) {
+            $this->following[$followed->getUsername()] = 0;
+        }
+        
+        foreach ($user->getFollowers() as $follower) {
+            $this->followers[$follower->getUsername()] = 0;
+        }
     }
 
     public function setId($id){
@@ -48,6 +57,18 @@ Class UserDto {
    	public function getRoles() { 
 		return $this->roles; 
 	}
+
+    public function getFollowing() {
+        return $this->following;
+    }
+
+    public function getFollowers() {
+        return $this->followers;
+    }
+
+    public function getRegistrationDate() {
+        return $this->registrationDate;
+    }
 }
 
 ?>

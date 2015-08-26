@@ -1,13 +1,22 @@
 /* The body, gives an example how the background should look like */
+html {
+   margin: 0px;
+   height: 100%;
+   width: 100%;
+}
+
+body {
+   margin: 0px;
+   min-height: 100%;
+   width: 100%;
+}
+
 body {
     background: #F7F7F7;
     -webkit-box-shadow: inset 0px 0px 150px 0px rgba(0, 0, 0, 0.8);
     -moz-box-shadow: inset 0px 0px 150px 0px rgba(0, 0, 0, 0.8);
     box-shadow: inset 0px 0px 150px 0px rgba(0, 0, 0, 0.8);
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    margin: 0;
+    
 }
 
 a {

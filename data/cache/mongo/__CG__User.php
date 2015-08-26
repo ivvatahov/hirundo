@@ -389,23 +389,34 @@ class User extends \User implements \Doctrine\ODM\MongoDB\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function removeFollower($follower)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFollower', array($follower));
+
+        return parent::removeFollower($follower);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function removeFollowing($followed)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'removeFollowing', array($followed));
+
+        return parent::removeFollowing($followed);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setVerified($verified)
     {
 
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setVerified', array($verified));
 
         return parent::setVerified($verified);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function addFollower($follower)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'addFollower', array($follower));
-
-        return parent::addFollower($follower);
     }
 
     /**

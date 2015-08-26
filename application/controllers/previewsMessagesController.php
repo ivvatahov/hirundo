@@ -1,6 +1,6 @@
 <?php
 
-class latestMessagesController extends baseController
+class previewsMessagesController extends baseController
 {
   	public function index()
   	{
@@ -19,10 +19,10 @@ class latestMessagesController extends baseController
 
 			$date = DateTime::createFromFormat($this->registry->dataTimeFormat, $_GET['date']);
 
-			// Getting the latest messages
+			// Getting the previews messages
 			$messages = array();
 
-			foreach ($this->registry->userRepository->getMessagesAfter($user, $date, $limit) as $message) {				
+			foreach ($this->registry->userRepository->getMessagesBefore($user, $date, $limit) as $message) {
 				$messages[] = new MessageDto($message);
 			}
 			echo json_encode(json_decode(json_encode($messages), true));

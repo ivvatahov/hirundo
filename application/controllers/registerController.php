@@ -64,6 +64,7 @@ class registerController extends baseController
                 $user->setSalt($random_salt);
                 $user->setPassword($password);
                 $user->addRole('user');
+                $user->setRegistrationDate(new DateTime());
                 
                 if ($this->registry->authenticationRepository->insertUser($user))
                 {   

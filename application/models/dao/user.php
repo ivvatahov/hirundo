@@ -114,15 +114,28 @@ Class User {
         return $this->followers;
     }
 
-    public function setVerified($verified) {
-        $this->verified = $verified;
+    public function removeFollower($follower) {
+       foreach($this->followers as $k=>$v) {
+            if($v->getUsername() == $follower->getUsername()) {
+                unset($this->followers[$k]);
+                break;
+            }
+        }  
     }
 
-    public function addFollower($follower) {
-        if (!in_array($follower, $this->followers)) {
-            //$this->followers[] = $follower;
-            //$follower->following[] = $this;
-        }
+    public function removeFollowing($followed) {
+        $followed->removeFollower($this);
+
+        foreach($this->following as $k=>$v) {
+            if($v->getUsername() == $followed->getUsername()) {
+                unset($this->following[$k]);
+                break;
+            }
+        }          
+    }
+
+    public function setVerified($verified) {
+        $this->verified = $verified;
     }
 
     public function isVerified() {

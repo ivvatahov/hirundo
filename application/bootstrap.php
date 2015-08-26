@@ -51,5 +51,6 @@ $registry->template->registerUrl = $_SERVER['PHP_SELF'] . "?rt=register";
 $registry->template->messageUrl = $_SERVER['PHP_SELF'] . "?rt=message";
 $registry->template->myMessageUrl = $_SERVER['PHP_SELF'] . "?rt=myMessages";
 $registry->template->followUrl = $_SERVER['PHP_SELF'] . "?rt=follow";
+$registry->template->unfollowUrl = $_SERVER['PHP_SELF'] . "?rt=unfollow";
 $registry->template->latestMessagesUrl = $_SERVER['PHP_SELF'] . "?rt=latestMessages";
 ?>

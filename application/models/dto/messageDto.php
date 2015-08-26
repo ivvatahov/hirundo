@@ -7,16 +7,13 @@ Class MessageDto {
     public $content;
     public $location;
     public $publicationDate;
-    //private $followers;
-    public $roles = array();
 
     function __construct($message) 
     {
         $this->id = $message->getId();
         $this->publisher = $message->getPublisher()->getUsername();
         $this->content = $message->getContent();
-        //$this->roles = $user->getRoles();
-        $this->publicationDate = $message->getPublicationdate();
+        $this->publicationDate = $message->getPublicationDate()->format('Y-m-d H:i:s');
     }
 
     public function setId($id){
@@ -25,6 +22,10 @@ Class MessageDto {
 
     public function getId(){
     	return $this->id;
+    }
+
+    public function getPublicationdate() {
+        return $this->publicationDate;
     }
 }
 

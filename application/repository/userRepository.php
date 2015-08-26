@@ -155,6 +155,26 @@ class UserRepository {
 				  -> field("publisher.id")
 				  -> in($following)
                   -> field('publicationDate')->gt($date)
+                  -> sort('publicationDate', 'asc')
+                  -> limit($limit)
+                  -> getQuery()
+                  -> execute();
+
+        return $messages;
+	}
+
+	public function getMessagesBefore($user, $date, $limit)
+	{
+		$following = array();
+
+		foreach ($user->getFollowing() as $followed) {
+        	$following[] = $followed->getId();
+        }
+
+        $messages = $this->dm->createQueryBuilder('Message')
+				  -> field("publisher.id")
+				  -> in($following)
+                  -> field('publicationDate')->lt($date)
                   -> sort('publicationDate', 'desc')
                   -> limit($limit)
                   -> getQuery()
